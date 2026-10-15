@@ -1,0 +1,44 @@
+{
+  "name": "garage-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site premium configurable pour garages automobiles — instance : Midas Villeurbanne Zola",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check:launch": "node --no-warnings scripts/check-launch.mjs",
+    "render:assets": "node scripts/render/render.mjs stills && node scripts/render/render.mjs video",
+    "render:og": "node scripts/render/og.mjs",
+    "qa:screens": "node qa/screens.mjs",
+    "qa:interactions": "node qa/interactions.mjs",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"qa/*.mjs\" \"scripts/**/*.{js,mjs}\""
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "gsap": "3.15.0",
+    "next": "16.4.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "server-only": "^0.0.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.1",
+    "playwright-core": "^1.64.1",
+    "prettier": "^3.9.10",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "4.3.3",
+    "three": "0.186.1",
+    "typescript": "5.9.3"
+  }
+}

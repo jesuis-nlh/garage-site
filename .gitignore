@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+scripts/render/out
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+qa/screens
+deliverables
