@@ -9,6 +9,7 @@ import { Footer } from '@/components/layout/Footer';
 import { MobileActionBar } from '@/components/layout/MobileActionBar';
 import { Cursor } from '@/components/motion/Cursor';
 import { MotionProvider } from '@/components/motion/MotionProvider';
+import { Analytics } from '@vercel/analytics/next';
 
 const archivo = localFont({
   src: './fonts/archivo-wdth.woff2',
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MobileActionBar />
         <Cursor />
         <MotionProvider />
+        <Analytics />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(businessJsonLd()) }} />
       </body>
     </html>
