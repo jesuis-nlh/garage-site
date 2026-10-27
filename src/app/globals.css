@@ -1,0 +1,515 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Jetons de design — « Automotive Precision »
+   Graphite profond, blancs chauds, neutres métalliques, un seul accent.
+------------------------------------------------------------------- */
+@theme {
+  --color-ink-950: #0a0b0d;
+  --color-ink-900: #0e0f11;
+  --color-ink-850: #121316;
+  --color-ink-800: #17191c;
+  --color-ink-700: #212328;
+  --color-ink-600: #2c2f35;
+  --color-steel-500: #5b5f67;
+  --color-steel-400: #8f939b;
+  --color-steel-300: #b5b2ab;
+  --color-steel-200: #cfcbc3;
+  --color-bone-200: #e7e2d9;
+  --color-bone-100: #f3f0ea;
+  --color-bone-50: #f8f6f2;
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SFMono-Regular', monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --breakpoint-xs: 26rem;
+}
+
+@theme inline {
+  --color-accent: var(--brand-accent);
+  --color-accent-ink: var(--brand-accent-ink);
+}
+
+:root {
+  --header-h: 4.5rem;
+  --gutter: clamp(1rem, 4vw, 3.5rem);
+  --focus-ring: var(--brand-accent);
+  color-scheme: dark;
+}
+
+html {
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--color-ink-900);
+  color: var(--color-bone-100);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--brand-accent);
+  color: var(--brand-accent-ink);
+}
+
+.theme-light {
+  --focus-ring: var(--color-ink-900);
+  color-scheme: light;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Grain filmique très discret sur toute la page */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------------
+   Typographie
+------------------------------------------------------------------- */
+@utility display {
+  font-family: var(--font-sans);
+  font-stretch: 112%;
+  font-variation-settings: 'wdth' 112;
+  font-weight: 720;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+@utility display-xl {
+  font-size: clamp(2.6rem, 5.6vw, 6.4rem);
+}
+
+@utility display-l {
+  font-size: clamp(2.1rem, 4.6vw, 4.6rem);
+}
+
+@utility display-m {
+  font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+}
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility hairline {
+  border-color: color-mix(in oklab, currentColor 14%, transparent);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------
+   Entrée du hero : CSS pur pour ne pas dépendre de l'hydratation (LCP)
+------------------------------------------------------------------- */
+@keyframes line-up {
+  from {
+    transform: translateY(108%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes clip-reveal {
+  from {
+    clip-path: inset(0 0 0 100%);
+    transform: scale(1.12);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.intro-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.intro-line > span {
+  display: block;
+  animation: line-up 1.15s var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 120ms);
+}
+
+.intro-fade {
+  animation: fade-up 0.9s var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 360ms);
+}
+
+.intro-media {
+  animation: fade-up 0.9s var(--ease-out-expo) both;
+}
+
+@media (min-width: 1280px) {
+  .intro-media {
+    animation: clip-reveal 1.6s var(--ease-in-out-quart) both;
+  }
+}
+
+/* Révélations au défilement (classe posée par MotionProvider) */
+.reveal-on [data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+.reveal-on [data-reveal].is-in {
+  transition:
+    opacity 1s var(--ease-out-expo) var(--rd, 0ms),
+    transform 1.1s var(--ease-out-expo) var(--rd, 0ms);
+}
+
+.reveal-on [data-split]:not(.is-in) {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.35em);
+}
+
+.reveal-on [data-split].is-in {
+  clip-path: inset(-0.2em -0.2em -0.3em -0.2em);
+  transition:
+    clip-path 1.2s var(--ease-out-expo) var(--rd, 0ms),
+    transform 1.2s var(--ease-out-expo) var(--rd, 0ms);
+}
+
+.draw-line {
+  stroke-dasharray: var(--len, 400);
+  stroke-dashoffset: var(--len, 400);
+  animation: draw 1.4s var(--ease-out-expo) both;
+  animation-delay: var(--d, 1s);
+}
+
+/* ------------------------------------------------------------------
+   Curseur personnalisé (pointeur fin uniquement, activé par JS)
+------------------------------------------------------------------- */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor label,
+.has-custom-cursor [role='button'] {
+  cursor: none;
+}
+
+.has-custom-cursor input,
+.has-custom-cursor textarea,
+.has-custom-cursor select {
+  cursor: auto;
+}
+
+/* ------------------------------------------------------------------
+   Utilitaires d'interaction
+------------------------------------------------------------------- */
+.link-underline {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition: background-size 0.45s var(--ease-out-expo);
+}
+
+.link-underline:hover,
+.link-underline:focus-visible,
+.link-underline[aria-current='true'] {
+  background-size: 100% 1px;
+}
+
+.collapse-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s var(--ease-out-expo);
+}
+
+.collapse-grid[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+
+.collapse-grid > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Curseur — rendu
+------------------------------------------------------------------- */
+.cursor-root {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cursor-root[data-visible='true'] {
+  opacity: 1;
+}
+
+.cursor-root[data-state='text'] {
+  opacity: 0;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.cursor-dot i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 999px;
+  background: #fff;
+  mix-blend-mode: difference;
+  transition: transform 0.35s var(--ease-out-expo);
+}
+
+.cursor-dot {
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  mix-blend-mode: difference;
+}
+
+.cursor-ring-shape {
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  transition:
+    transform 0.5s var(--ease-out-expo),
+    border-color 0.3s,
+    border-width 0.3s;
+}
+
+.cursor-label {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background: #fff;
+  color: #000;
+  font: 400 0.62rem/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.25s,
+    transform 0.35s var(--ease-out-expo);
+}
+
+.cursor-root[data-state='link'] .cursor-ring-shape {
+  transform: scale(1.55);
+  border-color: rgb(255 255 255 / 0.95);
+}
+
+.cursor-root[data-state='link'] .cursor-dot i {
+  transform: scale(0.5);
+}
+
+.cursor-root[data-state='cta'] .cursor-ring-shape,
+.cursor-root[data-state='call'] .cursor-ring-shape {
+  transform: scale(1.9);
+  border-color: #fff;
+  border-width: 1.5px;
+}
+
+.cursor-root[data-state='explore'] .cursor-ring-shape {
+  transform: scale(2.6);
+  border-style: dashed;
+  border-color: rgb(255 255 255 / 0.8);
+}
+
+.cursor-root:is([data-state='cta'], [data-state='call'], [data-state='explore']) .cursor-label {
+  opacity: 1;
+  transform: none;
+}
+
+.cursor-root[data-pressed='true'] .cursor-ring-shape {
+  transform: scale(0.8);
+}
+
+/* Illustrations techniques : tracé progressif */
+.glyph-draw [pathLength]:not([stroke-dasharray]) {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.7s var(--ease-out-expo) forwards;
+}
+
+.glyph-draw .accent {
+  stroke: var(--brand-accent);
+  animation-delay: 0.35s;
+}
+
+/* ------------------------------------------------------------------
+   Vue en coupe : projecteur révélant la mécanique
+------------------------------------------------------------------- */
+@property --sx {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: -999px;
+}
+
+@property --sy {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: -999px;
+}
+
+@property --sr {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+.bp-stage {
+  transition: --sr 0.5s var(--ease-out-expo);
+}
+
+.bp-stage[data-mode='focus'] {
+  transition:
+    --sx 0.8s var(--ease-out-expo),
+    --sy 0.8s var(--ease-out-expo),
+    --sr 0.6s var(--ease-out-expo);
+}
+
+.bp-mech {
+  mask-image: radial-gradient(circle at var(--sx) var(--sy), #000 0, #000 calc(var(--sr) * 0.62), transparent var(--sr));
+}
+
+.bp-body {
+  mask-image: radial-gradient(circle at var(--sx) var(--sy), rgb(0 0 0 / 0.16) 0, rgb(0 0 0 / 0.16) calc(var(--sr) * 0.62), #000 var(--sr));
+}
+
+.bp-stage[data-xray='true'] .bp-mech {
+  mask-image: none;
+}
+
+.bp-stage[data-xray='true'] .bp-body {
+  mask-image: none;
+  opacity: 0.3;
+}
+
+.bp-accent {
+  stroke: var(--brand-accent);
+}
+
+.bp-stage[data-xray='true'] .bp-ghost {
+  display: none;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Section finale : projecteur suivant le pointeur */
+.final-visual {
+  --lx: 75%;
+  --ly: 35%;
+}
+
+.final-light {
+  background: radial-gradient(circle 28rem at var(--lx) var(--ly), rgb(255 236 170 / 0.09), transparent 70%);
+  mix-blend-mode: screen;
+}
